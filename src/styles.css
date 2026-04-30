@@ -67,6 +67,11 @@ button{
     padding: 10px 16px;
     border-radius: 6px;
 }
+/* when cat-btn is clicked */
+.active-btn{
+    font-weight: 600;
+    background-color: var(--color-btn-hover);
+}
 
 button:hover{
     background-color: var(--color-btn-hover);

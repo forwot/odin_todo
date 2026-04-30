@@ -1,6 +1,7 @@
 *, *::before, *::after {
     box-sizing: border-box;
   }
+
   *:not(dialog) {
     margin: 0;
   }
@@ -9,6 +10,7 @@
     --color-sidebar-grey: rgb(236, 233, 228);
     --color-header-grey: grey;
     --color-btn-hover: rgb(207, 207, 207);
+    --color-btn-content: rgb(250, 247, 242);
 }
 
   body{
@@ -30,19 +32,22 @@ background-color: var(--color-header-grey);
 gap: 20px;
 padding-left: 20px;
 }
+
 header svg{
     width: 60px;
 }
+
 #title{
     font-size: 60px;
     color: white;
 }
 
-
+/* Sidebar styles */
 .sidebar{
 grid-area: sidebar;
 background-color: var(--color-sidebar-grey);
 }
+
 .cat-container{
     display: flex;
     flex-direction: column;
@@ -50,6 +55,7 @@ background-color: var(--color-sidebar-grey);
     padding-top: 26px;
     gap: 2px;
 }
+
 button{
     display: flex;
     align-items: center;
@@ -61,17 +67,19 @@ button{
     padding: 10px 16px;
     border-radius: 6px;
 }
+
 button:hover{
     background-color: var(--color-btn-hover);
     cursor: pointer;
 }
+
 /* SVG sizing */
 svg{
     width: 30px;
   }
 
-/* Projects section styling */
-h1{
+/* Projects section (sidebar) styling */
+.sidebar h1{
     padding: 30px 44px;
     font-size: 40px;
 }
@@ -84,9 +92,38 @@ h1{
     width: 36px;
 }
 
+/* CONTENT SECTION STYLING */
+#content{
+grid-area: main;
+background-color: white
+}
 
-  #content{
-    grid-area: main;
-    border: 2px solid black;
-    background-color: bisque;
-  }
+.inbox-content{
+    padding: 40px 230px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.inbox-content h1{
+   font-size: 40px; 
+}
+.inbox-content button{
+    width: 100%;
+    background-color: var(--color-btn-content) ;
+}
+.inbox-content button:hover{
+    background-color: var(--color-sidebar-grey);
+}
+
+/* TODAY/WEEK CATEGORIES CONTENT STYLING */
+.today-content,
+.week-content{
+    padding: 40px 230px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.today-content h1,
+.week-content h1{
+    font-size: 40px;
+}

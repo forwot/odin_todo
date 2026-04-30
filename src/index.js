@@ -2,6 +2,7 @@ import "./styles.css"
 import { renderInbox } from './inbox.js'
 import { renderToday } from "./today.js";
 import { renderWeek } from "./week.js";
+import { renderProjects } from "./projectsBar.js";
 
 function createHtmlElement(type, id, arrayClasses, content){
     const element = document.createElement(type);
@@ -17,11 +18,15 @@ function createHtmlElement(type, id, arrayClasses, content){
 
 const contentContainer = document.querySelector('#content');
 
+const projectsContainer = document.querySelector('.proj-container');
+
+export { createHtmlElement, contentContainer, projectsContainer };
+
 function clearContent(){
     contentContainer.replaceChildren();
 }
 
-export { createHtmlElement, contentContainer };
+renderProjects();
 
 // BUTTON CLICKED STYLING
 function setActiveBtn(clickedBtn){

@@ -11,6 +11,10 @@
     --color-header-grey: grey;
     --color-btn-hover: rgb(207, 207, 207);
     --color-btn-content: rgb(250, 247, 242);
+    --color-addbtn: #aaffaa;
+    --color-addbtn-border: #99dd99;
+    --color--cancelbtn: #ffbebe;
+    --color--cancelbtn-border: #eeadad;
 }
 
   body{
@@ -131,4 +135,38 @@ background-color: white
 .today-content h1,
 .week-content h1{
     font-size: 40px;
+}
+
+
+/* ADD PROJECT popup FIELD STYLING */
+.popup-container{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 0 40px;
+    width: 100%;
+}
+.proj-input{
+    width: 100%;
+    height: 50px;
+}
+.pu-btns-container{
+    display: flex;
+    justify-content: space-between;
+}
+.add,
+.cancel{
+    width: 130px;
+    border: 2px solid black;
+    display: flex;
+    justify-content: center;
+    font-weight: 500;
+}
+.add{
+    background-color: var(--color-addbtn);
+    border: 1px solid var(--color-addbtn-border);
+}
+.cancel{
+    background-color: var(--color--cancelbtn);
+    border: 1px solid var(--color--cancelbtn-border);
 }

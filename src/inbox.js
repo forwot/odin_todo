@@ -11,6 +11,15 @@ function render() {
 
     inboxContent.append(inboxH1, addTaskBtn);
     contentContainer.appendChild(inboxContent);
+
+    // BTN EVENT LISTENER
+    addTaskBtn.addEventListener('click',()=>{
+        //pending
+    })
+}
+
+function addPopUp(){
+    //pending
 }
 
 export { render as renderInbox }

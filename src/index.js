@@ -18,9 +18,10 @@ function createHtmlElement(type, id, arrayClasses, content){
 
 const contentContainer = document.querySelector('#content');
 
-const projectsContainer = document.querySelector('.proj-container');
+const projectsContainer = document.querySelector('.projects-container');
+const addProjContainer = document.querySelector('.addProj-container');
 
-export { createHtmlElement, contentContainer, projectsContainer };
+export { createHtmlElement, contentContainer, projectsContainer, addProjContainer };
 
 function clearContent(){
     contentContainer.replaceChildren();

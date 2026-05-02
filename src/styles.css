@@ -104,34 +104,38 @@ svg{
 /* CONTENT SECTION STYLING */
 #content{
 grid-area: main;
-background-color: white
+background-color: white;
+padding: 40px 230px;
+display: flex;
+flex-direction: column;
+gap: 14px;
 }
 
-.inbox-content{
+/* .inbox-content{
     padding: 40px 230px;
     display: flex;
     flex-direction: column;
     gap: 14px;
-}
-.inbox-content h1{
+} */
+h1{
    font-size: 40px; 
 }
-.inbox-content button{
+.addTaskBtn{
     width: 100%;
     background-color: var(--color-btn-content) ;
 }
-.inbox-content button:hover{
+.addTaskBtn:hover{
     background-color: var(--color-sidebar-grey);
 }
 
 /* TODAY/WEEK CATEGORIES CONTENT STYLING */
-.today-content,
+/* .today-content,
 .week-content{
     padding: 40px 230px;
     display: flex;
     flex-direction: column;
     gap: 14px;
-}
+} */
 .today-content h1,
 .week-content h1{
     font-size: 40px;
@@ -154,10 +158,11 @@ background-color: white
 .pu-btns-container{
     display: flex;
     justify-content: space-between;
+    gap: 20px;
 }
 .add,
 .cancel{
-    width: 130px;
+    width: 100%;
     border: 2px solid black;
     display: flex;
     justify-content: center;
@@ -189,4 +194,9 @@ background-color: white
 }
 .pb-right{
     display: flex;
+}
+
+/* ADD TASK CONTAINER STYLING */
+.addTask-container .popup-container{
+    padding: 0;
 }

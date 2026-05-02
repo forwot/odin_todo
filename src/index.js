@@ -1,5 +1,5 @@
 import "./styles.css"
-import { renderInbox } from './inbox.js'
+import { renderInbox , renderAddBtn} from './inbox.js'
 import { renderToday } from "./today.js";
 import { renderWeek } from "./week.js";
 import { renderProjects } from "./projectsBar.js";
@@ -39,8 +39,9 @@ function setActiveBtn(clickedBtn){
 // EVENT LISTENERS
 const inboxBtn = document.querySelector('button.inbox');
 inboxBtn.addEventListener('click', ()=>{
-    clearContent()
+    clearContent();
     renderInbox();
+    renderAddBtn();
     setActiveBtn(inboxBtn);
 })
 

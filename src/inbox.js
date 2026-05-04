@@ -27,13 +27,18 @@ function renderAddTaskBtn(addTaskContainer, taskContainer, projName) {
 function renderPopUp(addTaskContainer, taskContainer, projName) {
     addTaskContainer.replaceChildren();
 
-    const popupContainer = createHtmlElement('div', null, ['popup-container']);
+    const popupContainer = createHtmlElement('form', null, ['popup-container']);
+
     const projInput = createHtmlElement('input', null, ['proj-input']);
     projInput.type = 'text';
+
     const popupBtnsContainer = createHtmlElement('div', null, ['pu-btns-container']);
+
     const addBtn = createHtmlElement('button', null, ['add'], 'Add');
     addBtn.type = 'submit';
+
     const cancelBtn = createHtmlElement('button', null, ['cancel'], 'Cancel');
+    cancelBtn.type = 'button';
 
     popupBtnsContainer.append(addBtn, cancelBtn);
     popupContainer.append(projInput, popupBtnsContainer);
@@ -45,10 +50,17 @@ function renderPopUp(addTaskContainer, taskContainer, projName) {
         hidePopUp(addTaskContainer, taskContainer, projName);
     })
 
-    addBtn.addEventListener('click', () => {
-        addTaskStorage(projInput.value, projName);
-        renderTasks(taskContainer, projName);
-        hidePopUp(addTaskContainer, taskContainer, projName);
+    popupContainer.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        if(!projInput.value){
+            alert("Task name can't be empty");
+        }
+        else{
+            addTaskStorage(projInput.value, projName);
+            renderTasks(taskContainer, projName);
+            hidePopUp(addTaskContainer, taskContainer, projName);
+        }
     })
 }
 

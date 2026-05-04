@@ -11,22 +11,27 @@ function render() {
     addProjContainer.appendChild(addProjectBtn);
 
     addProjectBtn.addEventListener('click', ()=>{
-        addPopUp();
+        renderPopUp();
     })
 
     renderProjects();
 }
 
-function addPopUp(){
+function renderPopUp(){
     addProjContainer.replaceChildren();
 
-    const puContainer = createHtmlElement('div',null,['popup-container']);
+    const puContainer = createHtmlElement('form',null,['popup-container']);
+
     const projInput = createHtmlElement('input',null,['proj-input']);
     projInput.type = 'text';
+
     const puBtnsContainer = createHtmlElement('div',null,['pu-btns-container']);
+
     const addBtn = createHtmlElement('button',null,['add'],'Add');
     addBtn.type = 'submit';
+
     const cancelBtn = createHtmlElement('button',null,['cancel'],'Cancel');
+    cancelBtn.type = 'button'
 
     puBtnsContainer.append(addBtn,cancelBtn);
     puContainer.append(projInput,puBtnsContainer);
@@ -38,10 +43,17 @@ function addPopUp(){
         hidePopUp(addProjContainer);
     })
 
-    addBtn.addEventListener('click',()=>{
-        addProjStorage(projInput.value);
-        renderProjects();
-        hidePopUp(addProjContainer);
+    puContainer.addEventListener('submit',(e)=>{
+        e.preventDefault();
+
+        if(!projInput.value){
+            alert("Project name can't be empty");
+        }
+        else{
+            addProjStorage(projInput.value);
+            renderProjects();
+            hidePopUp(addProjContainer);
+        }
     })
 }
 

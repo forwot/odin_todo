@@ -200,3 +200,26 @@ h1{
 .addTask-container .popup-container{
     padding: 0;
 }
+.taskBtn{
+    width: 100%;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+}
+.taskBtn:hover{
+    cursor: default;
+}
+.taskBtnLeft,
+.taskBtnRight{
+    display: flex;
+    gap: 10px;
+}
+.taskBtnLeft div,
+.taskBtnRight div{
+    display: flex;
+    align-items: center;
+}
+.taskBtnLeft div:hover,
+.taskBtnRight div:hover{
+    cursor: pointer;
+}

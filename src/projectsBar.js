@@ -13,6 +13,8 @@ function render() {
     addProjectBtn.addEventListener('click', ()=>{
         addPopUp();
     })
+
+    renderProjects();
 }
 
 function addPopUp(){
@@ -37,7 +39,7 @@ function addPopUp(){
     })
 
     addBtn.addEventListener('click',()=>{
-        addProj(projInput.value);
+        addProjStorage(projInput.value);
         cancel(addProjContainer);
     })
 }
@@ -46,7 +48,25 @@ function cancel(container){
     container.replaceChildren();
     render();
 }
-function addProj(name){
+
+function addProjStorage(name){
+    // GET or CREATE 'myProjects' LOCALSTORAGE ARRAY
+    let projectsArray = JSON.parse(localStorage.getItem('myProjects')) || [];
+    projectsArray.push(name);
+    localStorage.setItem('myProjects', JSON.stringify(projectsArray));
+
+    renderProjects();
+}
+
+function removeProjStorage(name){
+    let projectsArray = JSON.parse(localStorage.getItem('myProjects')) || [];
+    projectsArray = projectsArray.filter(project => project !== name);
+    localStorage.setItem('myProjects', JSON.stringify(projectsArray));
+
+    renderProjects();
+}
+
+function renderProjectButtons(name){
     // CREATE NEW CONTAINER
     const projectBtn = createHtmlElement('button',null,['projectBtn']);
     const projBtnLeft = createHtmlElement('div',null,['pb-left']);
@@ -63,6 +83,7 @@ function addProj(name){
     // REMOVE PROJ
     projBtnRight.addEventListener('click',(e)=>{
         e.stopPropagation();
+        removeProjStorage(name);
         projectBtn.remove();
     })
 
@@ -71,7 +92,13 @@ function addProj(name){
         clearContent();
         renderProjectContent(name);
     })
-    
+}
+
+function renderProjects(){
+    // RENDER SAVED PROJECTS
+    projectsContainer.replaceChildren();
+    let projectsArray = JSON.parse(localStorage.getItem('myProjects')) || [];
+    projectsArray.forEach(proj => renderProjectButtons(proj));
 }
 
 export { render as renderProjects }

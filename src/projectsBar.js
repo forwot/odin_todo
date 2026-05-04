@@ -35,16 +35,17 @@ function addPopUp(){
 
     // BTN EVENT LISTENERS
     cancelBtn.addEventListener('click', ()=>{
-        cancel(addProjContainer);
+        hidePopUp(addProjContainer);
     })
 
     addBtn.addEventListener('click',()=>{
         addProjStorage(projInput.value);
-        cancel(addProjContainer);
+        renderProjects();
+        hidePopUp(addProjContainer);
     })
 }
 
-function cancel(container){
+function hidePopUp(container){
     container.replaceChildren();
     render();
 }
@@ -54,8 +55,6 @@ function addProjStorage(name){
     let projectsArray = JSON.parse(localStorage.getItem('myProjects')) || [];
     projectsArray.push(name);
     localStorage.setItem('myProjects', JSON.stringify(projectsArray));
-
-    renderProjects();
 }
 
 function removeProjStorage(name){
@@ -98,7 +97,7 @@ function renderProjects(){
     // RENDER SAVED PROJECTS
     projectsContainer.replaceChildren();
     let projectsArray = JSON.parse(localStorage.getItem('myProjects')) || [];
-    projectsArray.forEach(proj => renderProjectButtons(proj));
+    projectsArray.forEach(name => renderProjectButtons(name));
 }
 
 export { render as renderProjects }

@@ -2,13 +2,15 @@ import { createHtmlElement, contentContainer } from "./index.js";
 
 function render(projName) {
     const inboxH1 = createHtmlElement('h1', null, null, projName);
-    const taskContainer = createHtmlElement('div',null,['task-container'])
+    const taskContainer = createHtmlElement('div', null, ['task-container'])
     const addTaskContainer = createHtmlElement('div', null, ['addTask-container']);
-    renderAddTaskBtn(addTaskContainer, taskContainer);
+    renderAddTaskBtn(addTaskContainer, taskContainer, projName);
     contentContainer.append(inboxH1, taskContainer, addTaskContainer);
+
+    renderTasks(taskContainer, projName);
 }
 
-function renderAddTaskBtn(addTaskContainer, taskContainer){
+function renderAddTaskBtn(addTaskContainer, taskContainer, projName) {
     const addTaskBtn = createHtmlElement('button', null, ['addTaskBtn']);
 
     addTaskBtn.innerHTML = `<svg id="plus" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>plus</title><path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" /></svg>
@@ -18,11 +20,11 @@ function renderAddTaskBtn(addTaskContainer, taskContainer){
 
     // BTN EVENT LISTENER
     addTaskBtn.addEventListener('click', () => {
-        renderPopUp(addTaskContainer, taskContainer);
+        renderPopUp(addTaskContainer, taskContainer, projName);
     })
 }
 
-function renderPopUp(addTaskContainer, taskContainer) {
+function renderPopUp(addTaskContainer, taskContainer, projName) {
     addTaskContainer.replaceChildren();
 
     const popupContainer = createHtmlElement('div', null, ['popup-container']);
@@ -40,80 +42,102 @@ function renderPopUp(addTaskContainer, taskContainer) {
 
     // BTN EVENT LISTENERS
     cancelBtn.addEventListener('click', () => {
-        hidePopUp(addTaskContainer, taskContainer);
+        hidePopUp(addTaskContainer, taskContainer, projName);
     })
 
     addBtn.addEventListener('click', () => {
-        addTask(projInput.value, taskContainer);   // Pending
-        hidePopUp(addTaskContainer, taskContainer);
+        addTaskStorage(projInput.value, projName);
+        renderTasks(taskContainer, projName);
+        hidePopUp(addTaskContainer, taskContainer, projName);
     })
 }
 
-function hidePopUp(addTaskContainer, taskContainer) {
+function hidePopUp(addTaskContainer, taskContainer, projName) {
     addTaskContainer.replaceChildren();
-    renderAddTaskBtn(addTaskContainer, taskContainer);
+    renderAddTaskBtn(addTaskContainer, taskContainer, projName);
 }
 
-function addTask(name, taskContainer){
-    const taskBtn = createHtmlElement('button',null,['taskBtn']);
+function addTaskStorage(name, projName) {
+    let tasksArray = JSON.parse(localStorage.getItem(projName)) || [];
+    tasksArray.push(name);
+    localStorage.setItem(projName, JSON.stringify(tasksArray));
+}
 
-    const taskBtnLeft = createHtmlElement('div',null,['taskBtnLeft']);
+function removeTaskStorage(name, projName) {
+    let tasksArray = JSON.parse(localStorage.getItem(projName)) || [];
+    tasksArray = tasksArray.filter(task => task !== name);
+    localStorage.setItem(projName, JSON.stringify(tasksArray));
+}
+
+function renderTaskButtons(name, taskContainer, projName) {
+    const taskBtn = createHtmlElement('button', null, ['taskBtn']);
+
+    const taskBtnLeft = createHtmlElement('div', null, ['taskBtnLeft']);
     const checkBox = createHtmlElement('div');
     checkBox.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>checkbox-blank-circle-outline</title><path d="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" /></svg>`;
-    const taskName = createHtmlElement('div',null,null,name);
+    const taskName = createHtmlElement('div', null, null, name);
 
-    const taskBtnRight = createHtmlElement('div',null,['taskBtnRight']);
-    const date = createHtmlElement('div',null,null,'No date');
+    const taskBtnRight = createHtmlElement('div', null, ['taskBtnRight']);
+    const date = createHtmlElement('div', null, null, 'No date');
     const dltTask = createHtmlElement('div');
     dltTask.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>close</title><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" /></svg>`
 
-    taskBtnLeft.append(checkBox,taskName);
-    taskBtnRight.append(date,dltTask);
-    taskBtn.append(taskBtnLeft,taskBtnRight);
+    taskBtnLeft.append(checkBox, taskName);
+    taskBtnRight.append(date, dltTask);
+    taskBtn.append(taskBtnLeft, taskBtnRight);
     taskContainer.appendChild(taskBtn);
 
-    dltTask.addEventListener('click',(e)=>{
+    // EVENT LISTENERS
+    dltTask.addEventListener('click', (e) => {
         e.stopPropagation();
         taskBtn.remove();
+        removeTaskStorage(name, projName);
+        renderTasks(taskContainer, projName);
     })
 
-    checkBox.addEventListener('click',(e)=>{
+    checkBox.addEventListener('click', (e) => {
         e.stopPropagation();
         checkBox.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>checkbox-marked-circle-outline</title><path d="M20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4C12.76,4 13.5,4.11 14.2,4.31L15.77,2.74C14.61,2.26 13.34,2 12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12M7.91,10.08L6.5,11.5L11,16L21,6L19.59,4.58L11,13.17L7.91,10.08Z" /></svg>`;
     })
 
-    date.addEventListener('click',(e)=>{
+    date.addEventListener('click', (e) => {
         e.stopPropagation();
 
         const oldDate = date.textContent;
-        
+
         date.textContent = '';
         const dateInput = createHtmlElement('input')
-        dateInput.type = 'date' 
+        dateInput.type = 'date'
 
         dateInput.addEventListener('click', (e) => e.stopPropagation());
         dateInput.focus();
-        
+
         dateInput.addEventListener('change', (e => {
-            if (dateInput.value){
+            if (dateInput.value) {
                 date.textContent = dateInput.value;
             }
-            else{
+            else {
                 date.textContent = 'No date';
             }
         }));
 
         dateInput.addEventListener('blur', (e) => {
-            if(!dateInput.value){
+            if (!dateInput.value) {
                 date.textContent = oldDate || 'No date';
             }
-            else{
+            else {
                 date.textContent = dateInput.value;
             }
         });
-        
+
         date.appendChild(dateInput);
     })
+}
+
+function renderTasks(taskContainer, projName) {
+    taskContainer.replaceChildren();
+    let tasksArray = JSON.parse(localStorage.getItem(projName)) || [];
+    tasksArray.forEach(name => renderTaskButtons(name, taskContainer, projName));
 }
 
 export { render as renderProjectContent }

@@ -1,7 +1,7 @@
 import { createHtmlElement, contentContainer } from "./index.js";
 
-function render() {
-    const inboxH1 = createHtmlElement('h1', null, null, 'Inbox');
+function render(projName) {
+    const inboxH1 = createHtmlElement('h1', null, null, projName);
     const taskContainer = createHtmlElement('div',null,['task-container'])
     const addTaskContainer = createHtmlElement('div', null, ['addTask-container']);
     renderAddTaskBtn(addTaskContainer, taskContainer);
@@ -83,4 +83,4 @@ function addTask(name, taskContainer){
     })
 }
 
-export { render as renderInbox }
+export { render as renderProjectContent }

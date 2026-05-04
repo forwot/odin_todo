@@ -1,5 +1,5 @@
 import "./styles.css"
-import { renderInbox } from './inbox.js'
+import { renderProjectContent } from './inbox.js'
 import { renderToday } from "./today.js";
 import { renderWeek } from "./week.js";
 import { renderProjects } from "./projectsBar.js";
@@ -21,18 +21,14 @@ const contentContainer = document.querySelector('#content');
 const projectsContainer = document.querySelector('.projects-container');
 const addProjContainer = document.querySelector('.addProj-container');
 
-export { createHtmlElement, contentContainer, projectsContainer, addProjContainer };
-
 function clearContent(){
     contentContainer.replaceChildren();
 }
 
-renderProjects();
-
-// BUTTON CLICKED STYLING
+// ACTIVATE SELECTED BUTTON STYLING
 function setActiveBtn(clickedBtn){
-    const catBtns = document.querySelectorAll('.cat-container button');
-    catBtns.forEach(btn => btn.classList.remove('active-btn'));
+    const allSidebarBtns = document.querySelectorAll('.cat-container button, .projectBtn');
+    allSidebarBtns.forEach(btn => btn.classList.remove('active-btn'));
     clickedBtn.classList.add('active-btn');
 }
 
@@ -40,7 +36,7 @@ function setActiveBtn(clickedBtn){
 const inboxBtn = document.querySelector('button.inbox');
 inboxBtn.addEventListener('click', ()=>{
     clearContent();
-    renderInbox();
+    renderProjectContent('Inbox');
     setActiveBtn(inboxBtn);
 })
 
@@ -57,3 +53,13 @@ weekBtn.addEventListener('click', ()=>{
     renderWeek();
     setActiveBtn(weekBtn);
 })
+
+export { createHtmlElement, contentContainer, 
+    projectsContainer, addProjContainer,
+    setActiveBtn, clearContent };
+
+
+// DEFAULT INITIAL RENDER
+renderProjects();
+renderProjectContent('Inbox');
+setActiveBtn(inboxBtn);

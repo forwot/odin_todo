@@ -188,12 +188,10 @@ h1{
     display: flex;
     justify-content: space-between;
 }
-.pb-left{
-    display: flex;
-    gap: 10px;
-}
+.pb-left,
 .pb-right{
     display: flex;
+    gap: 10px;
 }
 
 /* ADD TASK CONTAINER STYLING */

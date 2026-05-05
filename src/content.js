@@ -221,7 +221,7 @@ function renderTaskButtons(name, taskContainer, projName, date, status) {
     dateInput.addEventListener("click", (e) => e.stopPropagation());
     dateInput.focus();
 
-    dateInput.addEventListener("change", (e) => {
+    dateInput.addEventListener("change", () => {
       if (dateInput.value) {
         dateContainer.textContent = dateInput.value;
       } else {
@@ -231,7 +231,7 @@ function renderTaskButtons(name, taskContainer, projName, date, status) {
       updateTaskDate(name, projName, dateContainer.textContent);
     });
 
-    dateInput.addEventListener("blur", (e) => {
+    dateInput.addEventListener("blur", () => {
       if (!dateInput.value) {
         dateContainer.textContent = oldDate || "No date";
       } else {

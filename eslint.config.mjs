@@ -3,6 +3,10 @@ import globals from "globals";
 import eslintConfigPrettier from "eslint-config-prettier";
 
 export default [
+  {
+    ignores: ["dist/**", "node_modules/**"]
+  },
+  
   // 1. ESLint's baseline recommended rules (Replaces `extends: ["js/recommended"]`)
   js.configs.recommended,
 

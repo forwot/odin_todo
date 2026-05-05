@@ -180,10 +180,6 @@ function renderTaskButtons(name, taskContainer, projName, date, status) {
         e.stopPropagation();
         taskBtn.remove();
         removeTaskStorage(name, projName);
-        renderMyTasks(taskContainer, projName);     //js testing
-
-        renderTodayTasks(taskContainer);    //js testing
-        renderWeekTasks(taskContainer);     //js testing
     })
 
     let isChecked = status;

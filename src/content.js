@@ -1,4 +1,5 @@
 import { createHtmlElement, contentContainer } from "./index.js";
+import { format, startOfWeek, endOfWeek, isWithinInterval, parseISO} from 'date-fns';
 
 function render(projName) {
     const inboxH1 = createHtmlElement('h1', null, null, projName);
@@ -91,6 +92,7 @@ function updateTaskDate(name, projName, date){
     }
 
     updateTodayTasks();
+    updateWeekTasks();
 }
 
 function updateTaskStatus(name, projName, status){
@@ -104,6 +106,7 @@ function updateTaskStatus(name, projName, status){
     }
 
     updateTodayTasks();
+    updateWeekTasks();
 }
 
 function removeTaskStorage(name, projName) {
@@ -112,17 +115,38 @@ function removeTaskStorage(name, projName) {
     localStorage.setItem('myTasks', JSON.stringify(tasksArray));
 
     updateTodayTasks();
+    updateWeekTasks();
 }
 
 // CREATE AND UPDATE TODAY'S TASKS
 function updateTodayTasks(){
-    const todaysDate = "2026-05-05";    // HARD CODED DATE FOR NOW
+    const todaysDate = format(new Date(), 'yyyy-MM-dd');
 
     const allTasks = JSON.parse(localStorage.getItem('myTasks')) || [];
     
+    // create array of allTodayTasks
     const allTodayTasks = allTasks.filter(t => t.date === todaysDate);
         
     localStorage.setItem('todayTasks', JSON.stringify(allTodayTasks));
+}
+
+// CREATE AND UPDATE WEEKLY TASKS
+function updateWeekTasks(){
+    const today = new Date();
+    const firstDay = startOfWeek(today);
+    const lastDay = endOfWeek(today);
+
+    const allTasks = JSON.parse(localStorage.getItem('myTasks')) || [];
+
+    const inTheWeek = allTasks.filter(t => {
+            const taskDate = parseISO(t.date);
+            return isWithinInterval(taskDate, {
+                start: firstDay,
+                end: lastDay,
+            });
+        });
+
+    localStorage.setItem('weekTasks', JSON.stringify(inTheWeek));
 }
 
 
@@ -156,7 +180,10 @@ function renderTaskButtons(name, taskContainer, projName, date, status) {
         e.stopPropagation();
         taskBtn.remove();
         removeTaskStorage(name, projName);
-        renderMyTasks(taskContainer, projName);
+        renderMyTasks(taskContainer, projName);     //js testing
+
+        renderTodayTasks(taskContainer);    //js testing
+        renderWeekTasks(taskContainer);     //js testing
     })
 
     let isChecked = status;
@@ -228,4 +255,12 @@ function renderTodayTasks(taskContainer){
         });  
 }
 
-export { render as renderProjectContent, renderTodayTasks }
+function renderWeekTasks(taskContainer){
+    taskContainer.replaceChildren();
+    let weekTasks = JSON.parse(localStorage.getItem('weekTasks')) || [];
+    weekTasks.forEach(t => {
+        renderTaskButtons(t.name, taskContainer, t.projName, t.date, t.completed);
+    })
+}
+
+export { render as renderProjectContent, renderTodayTasks, renderWeekTasks }

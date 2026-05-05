@@ -1,5 +1,5 @@
 import "./styles.css"
-import { renderProjectContent } from './inbox.js'
+import { renderProjectContent } from './content.js'
 import { renderToday } from "./today.js";
 import { renderWeek } from "./week.js";
 import { renderProjects } from "./projectsBar.js";

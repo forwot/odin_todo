@@ -1,4 +1,4 @@
-import { renderProjectContent } from "./inbox.js";
+import { renderProjectContent } from "./content.js";
 import { createHtmlElement, projectsContainer,
     addProjContainer, setActiveBtn, clearContent } from "./index.js";
 

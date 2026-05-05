@@ -71,31 +71,64 @@ function hidePopUp(addTaskContainer, taskContainer, projName) {
 
 function addTaskStorage(name, projName) {
     let tasksArray = JSON.parse(localStorage.getItem(projName)) || [];
-    tasksArray.push(name);
+    let taskDetails = { "name": name,
+                        "completed": false, 
+                        "date": "No date",
+                    }
+    tasksArray.push(taskDetails);
     localStorage.setItem(projName, JSON.stringify(tasksArray));
+}
+
+// UPDATE TASK DATE & STATUS
+function updateTaskDate(name, projName, date){
+    let tasksArray = JSON.parse(localStorage.getItem(projName)) || [];
+    const task = tasksArray.find(t => t.name === name);
+
+    if(task){
+        task.date = date;
+
+        localStorage.setItem(projName, JSON.stringify(tasksArray));
+    }
+}
+function updateTaskStatus(name, projName, status){
+    let tasksArray = JSON.parse(localStorage.getItem(projName)) || [];
+    const task = tasksArray.find(t => t.name === name);
+
+    if(task){
+        task.completed = status;
+
+        localStorage.setItem(projName, JSON.stringify(tasksArray));
+    }
 }
 
 function removeTaskStorage(name, projName) {
     let tasksArray = JSON.parse(localStorage.getItem(projName)) || [];
-    tasksArray = tasksArray.filter(task => task !== name);
+    tasksArray = tasksArray.filter(task => task.name !== name);
     localStorage.setItem(projName, JSON.stringify(tasksArray));
 }
 
-function renderTaskButtons(name, taskContainer, projName) {
+function renderTaskButtons(name, taskContainer, projName, date, status) {
     const taskBtn = createHtmlElement('button', null, ['taskBtn']);
 
     const taskBtnLeft = createHtmlElement('div', null, ['taskBtnLeft']);
     const checkBox = createHtmlElement('div');
-    checkBox.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>checkbox-blank-circle-outline</title><path d="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" /></svg>`;
+    if(status){
+        // checked
+        checkBox.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>checkbox-marked-circle-outline</title><path d="M20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4C12.76,4 13.5,4.11 14.2,4.31L15.77,2.74C14.61,2.26 13.34,2 12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12M7.91,10.08L6.5,11.5L11,16L21,6L19.59,4.58L11,13.17L7.91,10.08Z" /></svg>`;
+    }
+    else{
+        // unchecked
+        checkBox.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>checkbox-blank-circle-outline</title><path d="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" /></svg>`;
+    }
     const taskName = createHtmlElement('div', null, null, name);
 
     const taskBtnRight = createHtmlElement('div', null, ['taskBtnRight']);
-    const date = createHtmlElement('div', null, null, 'No date');
+    const dateContainer = createHtmlElement('div', null, null, date);
     const dltTask = createHtmlElement('div');
     dltTask.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>close</title><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" /></svg>`
 
     taskBtnLeft.append(checkBox, taskName);
-    taskBtnRight.append(date, dltTask);
+    taskBtnRight.append(dateContainer, dltTask);
     taskBtn.append(taskBtnLeft, taskBtnRight);
     taskContainer.appendChild(taskBtn);
 
@@ -113,17 +146,19 @@ function renderTaskButtons(name, taskContainer, projName) {
         isChecked = !isChecked;
         if (isChecked) {
             checkBox.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>checkbox-marked-circle-outline</title><path d="M20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4C12.76,4 13.5,4.11 14.2,4.31L15.77,2.74C14.61,2.26 13.34,2 12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12M7.91,10.08L6.5,11.5L11,16L21,6L19.59,4.58L11,13.17L7.91,10.08Z" /></svg>`;
+            updateTaskStatus(name, projName, true);     
         } else {
             checkBox.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>checkbox-blank-circle-outline</title><path d="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" /></svg>`;
+            updateTaskStatus(name, projName, false)
         }
     })
 
-    date.addEventListener('click', (e) => {
+    dateContainer.addEventListener('click', (e) => {
         e.stopPropagation();
 
-        const oldDate = date.textContent;
+        const oldDate = dateContainer.textContent;
 
-        date.textContent = '';
+        dateContainer.textContent = '';
         const dateInput = createHtmlElement('input')
         dateInput.type = 'date'
 
@@ -132,30 +167,34 @@ function renderTaskButtons(name, taskContainer, projName) {
 
         dateInput.addEventListener('change', (e => {
             if (dateInput.value) {
-                date.textContent = dateInput.value;
+                dateContainer.textContent = dateInput.value;
             }
             else {
-                date.textContent = 'No date';
+                dateContainer.textContent = 'No date';
             }
+
+            updateTaskDate(name, projName, dateContainer.textContent);   
         }));
 
         dateInput.addEventListener('blur', (e) => {
             if (!dateInput.value) {
-                date.textContent = oldDate || 'No date';
+                dateContainer.textContent = oldDate || 'No date';
             }
             else {
-                date.textContent = dateInput.value;
+                dateContainer.textContent = dateInput.value;
             }
+
+            updateTaskDate(name, projName, dateContainer.textContent);   
         });
 
-        date.appendChild(dateInput);
+        dateContainer.appendChild(dateInput);
     })
 }
 
 function renderTasks(taskContainer, projName) {
     taskContainer.replaceChildren();
     let tasksArray = JSON.parse(localStorage.getItem(projName)) || [];
-    tasksArray.forEach(name => renderTaskButtons(name, taskContainer, projName));
+    tasksArray.forEach(t => renderTaskButtons(t.name, taskContainer, projName, t.date, t.completed));
 }
 
 export { render as renderProjectContent }

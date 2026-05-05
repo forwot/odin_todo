@@ -17,7 +17,7 @@ function render() {
     renderProjects();
 }
 
-function renderPopUp(){
+function renderPopUp(){ 
     addProjContainer.replaceChildren();
 
     const puContainer = createHtmlElement('form',null,['popup-container']);

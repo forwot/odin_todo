@@ -7,7 +7,7 @@ function render(projName) {
     renderAddTaskBtn(addTaskContainer, taskContainer, projName);
     contentContainer.append(inboxH1, taskContainer, addTaskContainer);
 
-    renderTasks(taskContainer, projName);
+    renderMyTasks(taskContainer, projName);
 }
 
 function renderAddTaskBtn(addTaskContainer, taskContainer, projName) {
@@ -58,7 +58,7 @@ function renderPopUp(addTaskContainer, taskContainer, projName) {
         }
         else{
             addTaskStorage(projInput.value, projName);
-            renderTasks(taskContainer, projName);
+            renderMyTasks(taskContainer, projName);
             hidePopUp(addTaskContainer, taskContainer, projName);
         }
     })
@@ -70,42 +70,61 @@ function hidePopUp(addTaskContainer, taskContainer, projName) {
 }
 
 function addTaskStorage(name, projName) {
-    let tasksArray = JSON.parse(localStorage.getItem(projName)) || [];
+    let tasksArray = JSON.parse(localStorage.getItem('myTasks')) || [];
     let taskDetails = { "name": name,
                         "completed": false, 
                         "date": "No date",
-                    }
+                        "projName": projName
+                    };
     tasksArray.push(taskDetails);
-    localStorage.setItem(projName, JSON.stringify(tasksArray));
+    localStorage.setItem('myTasks', JSON.stringify(tasksArray));
 }
 
 // UPDATE TASK DATE & STATUS
 function updateTaskDate(name, projName, date){
-    let tasksArray = JSON.parse(localStorage.getItem(projName)) || [];
-    const task = tasksArray.find(t => t.name === name);
+    let tasksArray = JSON.parse(localStorage.getItem('myTasks')) || [];
+    const task = tasksArray.find(t => t.name === name && t.projName === projName);
 
     if(task){
         task.date = date;
-
-        localStorage.setItem(projName, JSON.stringify(tasksArray));
+        localStorage.setItem('myTasks', JSON.stringify(tasksArray));
     }
+
+    updateTodayTasks();
 }
+
 function updateTaskStatus(name, projName, status){
-    let tasksArray = JSON.parse(localStorage.getItem(projName)) || [];
-    const task = tasksArray.find(t => t.name === name);
+    let tasksArray = JSON.parse(localStorage.getItem('myTasks')) || [];
+    const task = tasksArray.find(t => t.name === name && t.projName === projName);
 
     if(task){
         task.completed = status;
 
-        localStorage.setItem(projName, JSON.stringify(tasksArray));
+        localStorage.setItem('myTasks', JSON.stringify(tasksArray));
     }
+
+    updateTodayTasks();
 }
 
 function removeTaskStorage(name, projName) {
-    let tasksArray = JSON.parse(localStorage.getItem(projName)) || [];
-    tasksArray = tasksArray.filter(task => task.name !== name);
-    localStorage.setItem(projName, JSON.stringify(tasksArray));
+    let tasksArray = JSON.parse(localStorage.getItem('myTasks')) || [];
+    tasksArray = tasksArray.filter(t => t.name !== name || t.projName !== projName);
+    localStorage.setItem('myTasks', JSON.stringify(tasksArray));
+
+    updateTodayTasks();
 }
+
+// CREATE AND UPDATE TODAY'S TASKS
+function updateTodayTasks(){
+    const todaysDate = "2026-05-05";    // HARD CODED DATE FOR NOW
+
+    const allTasks = JSON.parse(localStorage.getItem('myTasks')) || [];
+    
+    const allTodayTasks = allTasks.filter(t => t.date === todaysDate);
+        
+    localStorage.setItem('todayTasks', JSON.stringify(allTodayTasks));
+}
+
 
 function renderTaskButtons(name, taskContainer, projName, date, status) {
     const taskBtn = createHtmlElement('button', null, ['taskBtn']);
@@ -137,10 +156,10 @@ function renderTaskButtons(name, taskContainer, projName, date, status) {
         e.stopPropagation();
         taskBtn.remove();
         removeTaskStorage(name, projName);
-        renderTasks(taskContainer, projName);
+        renderMyTasks(taskContainer, projName);
     })
 
-    let isChecked = false;
+    let isChecked = status;
     checkBox.addEventListener('click', (e) => {
         e.stopPropagation();
         isChecked = !isChecked;
@@ -165,7 +184,7 @@ function renderTaskButtons(name, taskContainer, projName, date, status) {
         dateInput.addEventListener('click', (e) => e.stopPropagation());
         dateInput.focus();
 
-        dateInput.addEventListener('change', (e => {
+        dateInput.addEventListener('change', (e) => {
             if (dateInput.value) {
                 dateContainer.textContent = dateInput.value;
             }
@@ -173,8 +192,8 @@ function renderTaskButtons(name, taskContainer, projName, date, status) {
                 dateContainer.textContent = 'No date';
             }
 
-            updateTaskDate(name, projName, dateContainer.textContent);   
-        }));
+            updateTaskDate(name, projName, dateContainer.textContent); 
+        });
 
         dateInput.addEventListener('blur', (e) => {
             if (!dateInput.value) {
@@ -184,17 +203,29 @@ function renderTaskButtons(name, taskContainer, projName, date, status) {
                 dateContainer.textContent = dateInput.value;
             }
 
-            updateTaskDate(name, projName, dateContainer.textContent);   
+            updateTaskDate(name, projName, dateContainer.textContent);  
         });
 
         dateContainer.appendChild(dateInput);
     })
 }
 
-function renderTasks(taskContainer, projName) {
+function renderMyTasks(taskContainer, projName) {
     taskContainer.replaceChildren();
-    let tasksArray = JSON.parse(localStorage.getItem(projName)) || [];
-    tasksArray.forEach(t => renderTaskButtons(t.name, taskContainer, projName, t.date, t.completed));
+    let tasksArray = JSON.parse(localStorage.getItem('myTasks')) || [];
+    tasksArray.forEach(t => {
+        if(t.projName === projName){
+            renderTaskButtons(t.name, taskContainer, projName, t.date, t.completed);
+        }
+    });     
 }
 
-export { render as renderProjectContent }
+function renderTodayTasks(taskContainer){
+    taskContainer.replaceChildren();
+    let todayTasks = JSON.parse(localStorage.getItem('todayTasks')) || [];
+    todayTasks.forEach(t => {
+            renderTaskButtons(t.name, taskContainer, t.projName, t.date, t.completed);
+        });  
+}
+
+export { render as renderProjectContent, renderTodayTasks }

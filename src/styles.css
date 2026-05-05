@@ -1,223 +1,222 @@
-*, *::before, *::after {
-    box-sizing: border-box;
-  }
-
-  *:not(dialog) {
-    margin: 0;
-  }
-
-:root{
-    --color-sidebar-grey: rgb(236, 233, 228);
-    --color-header-grey: grey;
-    --color-btn-hover: rgb(207, 207, 207);
-    --color-btn-content: rgb(250, 247, 242);
-    --color-addbtn: #aaffaa;
-    --color-addbtn-border: #99dd99;
-    --color--cancelbtn: #ffbebe;
-    --color--cancelbtn-border: #eeadad;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-  body{
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    height: 100vh;
-    display: grid;
-    grid-template: 1fr 7fr / minmax(255px, 1fr) 4fr;
-    grid-template-areas: 
+*:not(dialog) {
+  margin: 0;
+}
+
+:root {
+  --color-sidebar-grey: rgb(236, 233, 228);
+  --color-header-grey: grey;
+  --color-btn-hover: rgb(207, 207, 207);
+  --color-btn-content: rgb(250, 247, 242);
+  --color-addbtn: #aaffaa;
+  --color-addbtn-border: #99dd99;
+  --color--cancelbtn: #ffbebe;
+  --color--cancelbtn-border: #eeadad;
+}
+
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
+  height: 100vh;
+  display: grid;
+  grid-template: 1fr 7fr / minmax(255px, 1fr) 4fr;
+  grid-template-areas:
     "header header"
     "sidebar main";
-  }
+}
 
 /* Header Styles */
-header{
-grid-area: header;
-display: flex;
-align-items: center;
-background-color: var(--color-header-grey);
-gap: 20px;
-padding-left: 20px;
+header {
+  grid-area: header;
+  display: flex;
+  align-items: center;
+  background-color: var(--color-header-grey);
+  gap: 20px;
+  padding-left: 20px;
 }
 
-header svg{
-    width: 60px;
+header svg {
+  width: 60px;
 }
 
-#title{
-    font-size: 60px;
-    color: white;
+#title {
+  font-size: 60px;
+  color: white;
 }
 
 /* Sidebar styles */
-.sidebar{
-grid-area: sidebar;
-background-color: var(--color-sidebar-grey);
+.sidebar {
+  grid-area: sidebar;
+  background-color: var(--color-sidebar-grey);
 }
 
-.cat-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 26px;
-    gap: 2px;
+.cat-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 26px;
+  gap: 2px;
 }
 
-button{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 22px;
-    width: 300px;
-    background-color: var(--color-sidebar-grey);
-    border: none;
-    padding: 10px 16px;
-    border-radius: 6px;
+button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 22px;
+  width: 300px;
+  background-color: var(--color-sidebar-grey);
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
 }
 /* when cat-btn is clicked */
-.active-btn{
-    font-weight: 600;
-    background-color: var(--color-btn-hover);
+.active-btn {
+  font-weight: 600;
+  background-color: var(--color-btn-hover);
 }
 
-button:hover{
-    background-color: var(--color-btn-hover);
-    cursor: pointer;
+button:hover {
+  background-color: var(--color-btn-hover);
+  cursor: pointer;
 }
 
 /* SVG sizing */
-svg{
-    width: 30px;
-  }
+svg {
+  width: 30px;
+}
 
 /* Projects section (sidebar) styling */
-.sidebar h1{
-    padding: 30px 44px;
-    font-size: 40px;
+.sidebar h1 {
+  padding: 30px 44px;
+  font-size: 40px;
 }
-.addProj-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.addProj-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.addProj-container svg{
-    width: 36px;
+.addProj-container svg {
+  width: 36px;
 }
 
 /* CONTENT SECTION STYLING */
-#content{
-grid-area: main;
-background-color: white;
-padding: 40px 230px;
-display: flex;
-flex-direction: column;
-gap: 14px;
+#content {
+  grid-area: main;
+  background-color: white;
+  padding: 40px 230px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
-/* .inbox-content{
-    padding: 40px 230px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-} */
-h1{
-   font-size: 40px; 
+h1 {
+  font-size: 40px;
 }
-.addTaskBtn{
-    width: 100%;
-    background-color: var(--color-btn-content) ;
+.addTaskBtn {
+  width: 100%;
+  background-color: var(--color-btn-content);
 }
-.addTaskBtn:hover{
-    background-color: var(--color-sidebar-grey);
+.addTaskBtn:hover {
+  background-color: var(--color-sidebar-grey);
 }
 
 /* TODAY/WEEK CATEGORIES CONTENT STYLING */
-/* .today-content,
-.week-content{
-    padding: 40px 230px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-} */
 .today-content h1,
-.week-content h1{
-    font-size: 40px;
+.week-content h1 {
+  font-size: 40px;
 }
-
 
 /* ADD PROJECT popup FIELD STYLING */
-.popup-container{
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding: 0 40px;
-    width: 100%;
+.popup-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0 40px;
+  width: 100%;
 }
-.proj-input{
-    width: 100%;
-    height: 50px;
-    font-size: 22px;
+.proj-input {
+  width: 100%;
+  height: 50px;
+  font-size: 22px;
 }
-.pu-btns-container{
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
+.pu-btns-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
 }
 .add,
-.cancel{
-    width: 100%;
-    border: 2px solid black;
-    display: flex;
-    justify-content: center;
-    font-weight: 500;
+.cancel {
+  width: 100%;
+  border: 2px solid black;
+  display: flex;
+  justify-content: center;
+  font-weight: 500;
 }
-.add{
-    background-color: var(--color-addbtn);
-    border: 1px solid var(--color-addbtn-border);
+.add {
+  background-color: var(--color-addbtn);
+  border: 1px solid var(--color-addbtn-border);
 }
-.cancel{
-    background-color: var(--color--cancelbtn);
-    border: 1px solid var(--color--cancelbtn-border);
+.cancel {
+  background-color: var(--color--cancelbtn);
+  border: 1px solid var(--color--cancelbtn-border);
 }
 /* PROJECTS CONTAINER STYLING */
-.projects-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 10px;
+.projects-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
 }
 /* PROJECT BUTTON STYLING */
-.projectBtn{
-    display: flex;
-    justify-content: space-between;
+.projectBtn {
+  display: flex;
+  justify-content: space-between;
 }
 .pb-left,
-.pb-right{
-    display: flex;
-    gap: 10px;
+.pb-right {
+  display: flex;
+  gap: 10px;
 }
 
 /* ADD TASK CONTAINER STYLING */
-.addTask-container .popup-container{
-    padding: 0;
+.addTask-container .popup-container {
+  padding: 0;
 }
-.taskBtn{
-    width: 100%;
-    background-color: white;
-    display: flex;
-    justify-content: space-between;
+.taskBtn {
+  width: 100%;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
 }
-.taskBtn:hover{
-    cursor: default;
+.taskBtn:hover {
+  cursor: default;
 }
 .taskBtnLeft,
-.taskBtnRight{
-    display: flex;
-    gap: 10px;
+.taskBtnRight {
+  display: flex;
+  gap: 10px;
 }
 .taskBtnLeft div,
-.taskBtnRight div{
-    display: flex;
-    align-items: center;
+.taskBtnRight div {
+  display: flex;
+  align-items: center;
 }
 .taskBtnLeft div:hover,
-.taskBtnRight div:hover{
-    cursor: pointer;
+.taskBtnRight div:hover {
+  cursor: pointer;
 }
